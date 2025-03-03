@@ -1,0 +1,40 @@
+﻿@model LapinCouvert.Models.SuggestedProduct
+
+@{
+    ViewData["Title"] = "Modification";
+}
+
+<h1>Modifier</h1>
+
+<h4>Produits suggérés</h4>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+	    <form asp-action="Edit">
+		    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		    <input type="hidden" asp-for="Id" />
+		    <div class="form-group">
+			    <label asp-for="Name" class="control-label"></label>
+			    <input asp-for="Name" class="form-control mid-field" />
+			    <span asp-validation-for="Name" class="text-danger"></span>
+		    </div>
+		    <div class="form-group">
+			    <label asp-for="Photo" class="control-label"></label>
+			    <input asp-for="Photo" class="form-control long-field" />
+			    <span asp-validation-for="Photo" class="text-danger"></span>
+		    </div>
+		    <br />
+		    <div class="form-group">
+			    <input type="submit" value="Modifier" class="btn btn-primary" />
+		    </div>
+	    </form>
+		<br/>
+	    <div>
+		    <a asp-action="Index">Retour à la liste</a>
+	    </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

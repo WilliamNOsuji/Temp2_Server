@@ -1,0 +1,82 @@
+@model IEnumerable<LapinCouvert.Models.Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsBanned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cart)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBanned)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cart.Id)
+            </td>
+            <td>
+                <a asp-action="ChangeRoleAdmin" asp-route-id="@item.Id">@(item.IsAdmin ? "Retirer admin" : "Ajouter admin")</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

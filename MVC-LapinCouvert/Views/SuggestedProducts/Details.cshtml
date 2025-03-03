@@ -1,0 +1,37 @@
+﻿@model LapinCouvert.Models.SuggestedProduct
+
+@{
+    ViewData["Title"] = "Détails";
+}
+
+<h1>Détails</h1>
+
+<div>
+    <h4>Produits suggérés</h4>
+    <hr />
+    <dl class="row">
+	    <dt class = "col-sm-2">
+		    @Html.DisplayNameFor(model => model.Name)
+	    </dt>
+	    <dd class = "col-sm-10">
+		    @Html.DisplayFor(model => model.Name)
+	    </dd>
+	    <dt class = "col-sm-2">
+		    @Html.DisplayNameFor(model => model.FinishDate)
+	    </dt>
+	    <dd class = "col-sm-10">
+		    @Html.DisplayFor(model => model.FinishDate)
+	    </dd>
+	    <dt class = "col-sm-2">
+		    @Html.DisplayNameFor(model => model.Photo)
+	    </dt>
+	    <dd class="col-sm-10">
+		    <img style="height:100px; width:auto" src="@Model.Photo" alt="@Model.Name" />
+	    </dd>
+    </dl>
+    <br/>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Modifier</a> |
+    <a asp-action="Index">Retour à la liste</a>
+</div>

@@ -1,0 +1,6 @@
+@API_LapinCouvert_HostAddress = http://localhost:5180
+
+GET {{API_LapinCouvert_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

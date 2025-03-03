@@ -1,0 +1,108 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+textarea{
+    display : block;
+    width : 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /*overflow: hidden;*/ /* Prevent scrolling on the entire page */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%; /* Full viewport height */
+    padding: 0; /* Remove padding */
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    height: 100%; /* Ensure the row takes full height */
+    margin: 0; /* Remove margin */
+}
+
+.col-md-3 {
+    width: 25%;
+    padding-right: 15px;
+    position: sticky;
+    top: 0;
+    height: 100%; /* Full viewport height */
+    
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    z-index: 10; /* Ensures the sidebar stays above other content */
+}
+
+.col-md-9 {
+    width: 75%;
+    padding-left: 15px;
+    height: 100%; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    margin: 0; /* Remove margin */
+}
+
+.table-container {
+    flex: 1;
+    overflow-y: auto; /* Allow scrolling within the table container */
+    margin-bottom: 0px; /* Reduce margin */
+}
+
+.table {
+    width: 100%;
+    margin-top: 0px; /* Reduce margin */
+}
+
+.table tbody tr td,
+.table thead tr th {
+    padding: 10px; /* Reduce padding for compact rows */
+    font-size: 12px; /* Reduce font size for compact rows */
+}
+
+#sidebar {
+    padding: 10px; /* Reduce padding */
+}
+
+#content-pagination {
+    margin-top: 10px; /* Reduce margin */
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding: 5px; /* Reduce padding */
+    border-top: 1px solid #ddd;
+    z-index: 10; /* Ensures pagination stays above other content */
+}
+
+.mid-field {
+    width: 450px;
+}
+.long-field {
+    width: 600px;
+}
