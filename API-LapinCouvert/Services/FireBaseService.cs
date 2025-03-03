@@ -30,6 +30,11 @@ namespace API_LapinCouvert.Services
             _bucketName = configuration["Firebase:StorageBucket"];
         }
 
+        public FirebaseService()
+        {
+
+        }
+
         #region Chat Methods
 
         // Create a new chat in Firestore

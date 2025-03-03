@@ -34,7 +34,7 @@ namespace API_LapinCouvert.Controllers.Tests
         private Mock<NotificationsService> _notificationsServiceMock;
         private Mock<RandomService> _randomServiceMock;
         private Mock<ChatService> _chatServiceMock;
-        private Mock<FirebaseService> _firebaseService;
+        private Mock<FirebaseService> _firebaseServiceMock;
         private CommandsController _controller;
 
         [TestInitialize]
@@ -58,17 +58,12 @@ namespace API_LapinCouvert.Controllers.Tests
 
             _randomServiceMock = new Mock<RandomService>();
 
-            // Mock IConfiguration for Firebase
-            var configurationMock = new Mock<IConfiguration>();
-            configurationMock.Setup(c => c["Firebase:ProjectId"]).Returns("test-project-id");
-            configurationMock.Setup(c => c["Firebase:StorageBucket"]).Returns("test-bucket");
-
             // Setup FirebaseService mock
-            var firebaseServiceMock = new Mock<FirebaseService>(configurationMock.Object);
+            _firebaseServiceMock = new Mock<FirebaseService>() { CallBase = false };
 
             _chatServiceMock = new Mock<ChatService>(
                 _dbContext,
-                //_firebaseService.Object,
+                _firebaseServiceMock.Object,
                 _notificationsServiceMock.Object);
 
             _hubContextMock = new Mock<IHubContext<DeliveryHub>>();
@@ -77,8 +72,8 @@ namespace API_LapinCouvert.Controllers.Tests
             _commandsServiceMock = new Mock<CommandsService>(
                 _dbContext,
                 _notificationsServiceMock.Object,
-                _randomServiceMock.Object
-                //_chatServiceMock.Object
+                _randomServiceMock.Object,
+                _chatServiceMock.Object
                 );
 
             _hubContextMock = new Mock<IHubContext<DeliveryHub>>();

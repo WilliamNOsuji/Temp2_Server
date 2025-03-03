@@ -76,7 +76,7 @@ namespace API_LapinCouvert.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Command> GetCommandById(int commandId)
+        public virtual async Task<Command> GetCommandById(int commandId)
         {
             return await _context.Commands
                 .Include(c => c.Client)
@@ -172,7 +172,7 @@ namespace API_LapinCouvert.Services
         }
 
         // Update DeliveryInProgress method to initialize chat
-        public async Task<string> DeliveryInProgress(int deliveryManId, int commandId)
+        public virtual async Task<string> DeliveryInProgress(int deliveryManId, int commandId)
         {
             var command = await _context.Commands
                 .Include(c => c.Client)
@@ -218,7 +218,7 @@ namespace API_LapinCouvert.Services
         }
 
         // Update CommandDelivered method to end chat
-        public async Task<string> CommandDelivered(DeliveryMan deliveryMan, int commandId)
+        public virtual async Task<string> CommandDelivered(DeliveryMan deliveryMan, int commandId)
         {
             Command command = deliveryMan.Commands.FirstOrDefault(c => c.Id == commandId);
 
@@ -257,7 +257,7 @@ namespace API_LapinCouvert.Services
         }
 
         // Update CancelADelivery method to end chat
-        public async Task<string> CancelADelivery(DeliveryMan deliveryMan, int commandId)
+        public virtual async Task<string> CancelADelivery(DeliveryMan deliveryMan, int commandId)
         {
             var command = deliveryMan.Commands.FirstOrDefault(c => c.Id == commandId);
 

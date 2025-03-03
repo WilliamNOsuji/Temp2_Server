@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -10,6 +10,18 @@
     <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Services\**" />
     <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Models\firebase-admin.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Models\firebase-admin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
