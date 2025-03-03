@@ -422,6 +422,7 @@ namespace API_LapinCouvert.Controllers.Tests
             Assert.AreEqual(newCartProducts.MaxQuantity, cartProducts1.MaxQuantity);
             Assert.AreEqual(newCartProducts.ProductId, cartProducts1.ProductId);
             Assert.AreEqual(newCartProducts.CartId, cartProducts1.CartId);
+            Assert.AreSame(newCartProducts, cartProducts1);
 
 
         }

@@ -30,6 +30,7 @@ namespace API_LapinCouvert.Services
         }
         public virtual async Task<Command> CreateCommand(int clientId ,CommandDTO commandDTO)
         {
+            //generation numero de commande
             int commandNumber = _randomService.Next(100000, 1000000);
 
             Command command = new Command
@@ -44,7 +45,7 @@ namespace API_LapinCouvert.Services
                 DeviceToken = commandDTO.DeviceTokens
             };
 
-            _context.Add(command);
+            await _context.AddAsync(command);
             await _context.SaveChangesAsync();
 
             return command;
@@ -52,7 +53,7 @@ namespace API_LapinCouvert.Services
 
         public virtual async Task<Command> SaveCommand(Command command)
         {
-            _context.Add(command);
+            await _context.AddAsync(command);
             await _context.SaveChangesAsync();
 
             return command;
@@ -109,12 +110,12 @@ namespace API_LapinCouvert.Services
             await _context.SaveChangesAsync();
         }
 
-        public virtual List<Command> GetClientCommand(int clientId)
+        public virtual async Task<List<Command>> GetClientCommand(int clientId)
         {
-            return _context.Commands
+            return await _context.Commands
                 .Where(c => c.ClientId == clientId)
                 .OrderBy(d => d.OrderTime)
-                .ToList();
+                .ToListAsync();
         }
 
         public virtual async Task<List<Command>> GetAvailableCommands()
@@ -136,9 +137,9 @@ namespace API_LapinCouvert.Services
                 
         public virtual async Task<string> AssignADelivery(int deliveryManId, int commandId)
         {
-            Command command = _context.Commands
+            Command command = await  _context.Commands
                 .Include(c => c.Client)
-                .SingleOrDefault(c => c.Id == commandId);
+                .SingleOrDefaultAsync(c => c.Id == commandId);
 
             if (command == null)
             {
@@ -299,11 +300,11 @@ namespace API_LapinCouvert.Services
             return "Annulation réussie. Chat terminé.";
         }
                 
-        public virtual DeliveryMan GetDeliveryManById(string userId)
+        public virtual async Task<DeliveryMan> GetDeliveryManById(string userId)
         {
-            DeliveryMan deliveryMan = _context.DeliveryMans
+            DeliveryMan deliveryMan = await _context.DeliveryMans
                 .Include(d => d.Client)
-                .SingleOrDefault(d => d.Client.UserId == userId);
+                .SingleOrDefaultAsync(d => d.Client.UserId == userId);
 
             return deliveryMan;
         }

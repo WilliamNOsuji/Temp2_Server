@@ -30,9 +30,9 @@ namespace API_LapinCouvert.Controllers
         [Authorize]
         public async Task<ActionResult<DeliveryManDTO>> GetDeliveryManInfo(int deliveryManId)
         {
-            DeliveryMan deliveryMan = _context.DeliveryMans.Where(d => d.Id == deliveryManId).FirstOrDefault();
+            DeliveryMan deliveryMan = await _context.DeliveryMans.Where(d => d.Id == deliveryManId).FirstOrDefaultAsync();
 
-            Client client = _context.Clients.Where(c => c.Id == deliveryMan.ClientId).FirstOrDefault();
+            Client client = await _context.Clients.Where(c => c.Id == deliveryMan.ClientId).FirstOrDefaultAsync();
 
             DeliveryManDTO deliveryManDTO = new DeliveryManDTO();
             deliveryManDTO.Username = client.Username;
@@ -60,7 +60,7 @@ namespace API_LapinCouvert.Controllers
                 client.DeliveryMan.IsActive = !client.DeliveryMan.IsActive;
                 client.IsDeliveryMan = true;
                 _context.Update(client);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Ok("State changed");
             }
 
@@ -70,7 +70,7 @@ namespace API_LapinCouvert.Controllers
             }
             client.IsDeliveryMan = true;
             _context.Update(client);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             await _userManager.AddToRoleAsync(currentUser, "deliveryMan");
 
             return Ok("Added as delivery Man");

@@ -93,7 +93,7 @@ namespace API_LapinCouvert.Services
                     product.Votes.Remove(existingVote);
                     _context.Votes.Remove(existingVote);
                 }
-
+               
                 var vote = new Vote
                 {
                     ClientId = clientId,

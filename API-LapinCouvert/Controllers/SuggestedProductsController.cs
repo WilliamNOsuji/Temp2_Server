@@ -34,13 +34,13 @@ namespace API_LapinCouvert.Controllers
         [HttpPost("{suggestedProductId}")]
         public virtual async Task<ActionResult<SuggestedProduct>> VoteFor(int suggestedProductId)
         {
-            var userId = _userIdGetService.getUserId();
+            var userId = await _userIdGetService.getUserId();
             if (userId == null)
             {
                 return NotFound("Identifiant utilisateur non trouvé.");
             }
 
-            Client client = _clientsService.GetClientFromUserId(userId);
+            Client client = await _clientsService.GetClientFromUserId(userId);
             if (client == null)
             {
                 return NotFound("Client non trouvé pour cet utilisateur.");
@@ -62,13 +62,13 @@ namespace API_LapinCouvert.Controllers
         [HttpPost("{suggestedProductId}")]
         public virtual async Task<ActionResult<SuggestedProduct>> VoteAgainst(int suggestedProductId)
         {
-            var userId = _userIdGetService.getUserId();
+            var userId = await _userIdGetService.getUserId();
             if (userId == null)
             {
                 return NotFound("Identifiant utilisateur non trouvé.");
             }
 
-            Client client = _clientsService.GetClientFromUserId(userId);
+            Client client = await _clientsService.GetClientFromUserId(userId);
             if (client == null)
             {
                 return NotFound("Client non trouvé pour cet utilisateur.");
@@ -90,7 +90,7 @@ namespace API_LapinCouvert.Controllers
         [HttpGet]
         public virtual async Task<ActionResult> GetSuggestedProducts()
         {
-            var userId = _userIdGetService.getUserId();
+            var userId = await _userIdGetService.getUserId();
             if (userId == null)
             {
                 return NotFound("Identifiant utilisateur non trouvé.");

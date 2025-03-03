@@ -43,12 +43,20 @@ namespace Admin_API.Controllers
                     return NotFound(new { Error = "User not found." });
                 }
 
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+
                 var authClaims = new List<Claim>
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
+
+                foreach (var role in userRoles)
+                {
+                    authClaims.Add(new Claim(ClaimTypes.Role, role));
+                }
 
                 SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("C'est tellement la meilleure cle qui a jamais ete cree dans l'histoire de l'humanite (doit etre longue)"));
                 string issuer = "http://localhost:5180";
@@ -64,7 +72,7 @@ namespace Admin_API.Controllers
 
                 string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-                LapinCouvert.Models.Client client = _clientsService.GetClientFromUserId(user.Id);
+                LapinCouvert.Models.Client client = await _clientsService.GetClientFromUserId(user.Id);
                 bool isActive = false;
                 bool isDeliveryMan = await _userManager.IsInRoleAsync(user, "deliveryMan");
                 if (client.DeliveryMan != null)
@@ -142,7 +150,7 @@ namespace Admin_API.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             // Retrieve the client and user identity
-            Client client = _clientsService.GetClientFromUserId(userId);
+            Client client = await _clientsService.GetClientFromUserId(userId);
             if (client == null)
             {
                 return NotFound("Client introuvable");
@@ -208,7 +216,7 @@ namespace Admin_API.Controllers
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client client = _clientsService.GetClientFromUserId(userId);
+            Client client = await _clientsService.GetClientFromUserId(userId);
             if (client == null)
             {
                 return NotFound("Client introuvable");

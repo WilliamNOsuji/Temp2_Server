@@ -16,7 +16,7 @@ namespace API_LapinCouvert.Services
         {
         }
 
-        public virtual string getUserId()
+        public virtual async Task<string> getUserId()
         {
             return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }

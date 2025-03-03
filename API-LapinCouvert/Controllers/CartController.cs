@@ -38,8 +38,8 @@ namespace API_LapinCouvert.Controllers
         [HttpPost("{productId}/{clientId}")]
         public async Task­<ActionResult> AddCartProduct(int productId, int clientId)
         {
-            Cart? cart = _cartService.GetCartFromClientId(clientId);
-            Product? product = _cartService.GetProductFromProductId(productId);
+            Cart? cart = await _cartService.GetCartFromClientId(clientId);
+            Product? product = await _cartService.GetProductFromProductId(productId);
 
 
             if (cart == null || product == null)
@@ -60,17 +60,17 @@ namespace API_LapinCouvert.Controllers
 
             CartProducts cartProductFromRequest = new CartProducts(product, cart.Id);
 
-            CartProducts? cartProduct = _cartService.GetCartProductIfAlready(productId, cart.Id);
+            CartProducts? cartProduct = await _cartService.GetCartProductIfAlready(productId, cart.Id);
 
 
             if (cartProduct == null)
-            {
-                CartProducts cp1 = _cartService.AddCartProductDB(cartProductFromRequest);
+            {//renommer variable
+                CartProducts cp1 = await _cartService.AddCartProductDB(cartProductFromRequest);
 
                 return Ok(cartProductFromRequest);
             }
             cartProduct.Quantity++;
-            CartProducts cp = _cartService.IncreaseQuantity(cartProduct);
+            CartProducts cp = await _cartService.IncreaseQuantity(cartProduct);
             return Ok(cp);
 
         }
@@ -80,8 +80,8 @@ namespace API_LapinCouvert.Controllers
         [HttpPost("{productId}/{clientId}")]
         public async Task­<ActionResult> AddQuantityCartProduct(int productId, int clientId)
         {
-            Cart? cart = _cartService.GetCartFromClientId(clientId);
-            Product? product = _cartService.GetProductFromProductId(productId);
+            Cart? cart = await _cartService.GetCartFromClientId(clientId);
+            Product? product = await _cartService.GetProductFromProductId(productId);
 
             if (cart == null || product == null)
             {
@@ -90,12 +90,12 @@ namespace API_LapinCouvert.Controllers
 
 
 
-            CartProducts? cp = _cartService.GetCartProductIfAlready(productId, cart.Id);
+            CartProducts? cp = await _cartService.GetCartProductIfAlready(productId, cart.Id);
 
             cp.Quantity++;
             cp.MaxQuantity = product.Quantity;
 
-            CartProducts cartProducts = _cartService.IncreaseQuantityCartProduct(cp, product);
+            CartProducts cartProducts = await _cartService.IncreaseQuantityCartProduct(cp, product);
             return Ok(cartProducts);
 
         }
@@ -104,8 +104,8 @@ namespace API_LapinCouvert.Controllers
         [HttpPost("{productId}/{clientId}")]
         public async Task­<ActionResult> DecreaseQuantityCartProduct(int productId, int clientId)
         {
-            Cart? cart = _cartService.GetCartFromClientId(clientId);
-            Product? product = _cartService.GetProductFromProductId(productId);
+            Cart? cart = await _cartService.GetCartFromClientId(clientId);
+            Product? product = await _cartService.GetProductFromProductId(productId);
 
             if (cart == null || product == null)
             {
@@ -114,12 +114,12 @@ namespace API_LapinCouvert.Controllers
 
 
 
-            CartProducts? cartProduct = _cartService.GetCartProductIfAlready(productId, cart.Id);
+            CartProducts? cartProduct = await _cartService.GetCartProductIfAlready(productId, cart.Id);
 
             cartProduct.Quantity--;
             cartProduct.MaxQuantity = product.Quantity;
 
-            CartProducts cartProducts = _cartService.DecreaseQuantityCartProduct(cartProduct, product);
+            CartProducts cartProducts = await _cartService.DecreaseQuantityCartProduct(cartProduct, product);
             return Ok(cartProducts);
 
         }
@@ -128,8 +128,8 @@ namespace API_LapinCouvert.Controllers
         [HttpPost("{productId}/{clientId}")]
         public async Task­<ActionResult> DeleteCartProduct(int productId, int clientId)
         {
-            Cart? cart = _cartService.GetCartFromClientId(clientId);
-            Product? product = _cartService.GetProductFromProductId(productId);
+            Cart? cart = await _cartService.GetCartFromClientId(clientId);
+            Product? product = await _cartService.GetProductFromProductId(productId);
 
             if (cart == null || product == null)
             {
@@ -138,7 +138,7 @@ namespace API_LapinCouvert.Controllers
 
 
 
-            CartProducts? cartProduct = _cartService.GetCartProductIfAlready(productId, cart.Id);
+            CartProducts? cartProduct = await _cartService.GetCartProductIfAlready(productId, cart.Id);
 
             _cartService.DeleteCartProduct(cartProduct);
             return Ok("Produit supprimé");
@@ -164,11 +164,11 @@ namespace API_LapinCouvert.Controllers
 
         }
 
-        private bool isCartvalid(List<CartProducts> cartProducts)
+        private async Task<bool> isCartvalid(List<CartProducts> cartProducts)
         {
             foreach (CartProducts cp in cartProducts)
             {
-                Product? product = _cartService.GetProductFromProductId(cp.ProductId);
+                Product? product = await _cartService.GetProductFromProductId(cp.ProductId);
                 if (cp.isOutofStock == true || cp.Quantity > cp.MaxQuantity || product.IsDeleted)
                 {
                     return false;

@@ -35,20 +35,20 @@ namespace API_LapinCouvert.Services
             await FirebaseMessaging.DefaultInstance.SendAsync(message);
         }
 
-        public virtual List<string> GetAllDeliveryMenDeviceTokens()
+        public virtual async Task<List<string>> GetAllDeliveryMenDeviceTokens()
         {
-            return _context.DeliveryMans
+            return await _context.DeliveryMans
                 .Include(d => d.Client)
                 .Where(d => d.Client.IsDeliveryMan && !string.IsNullOrEmpty(d.DeviceToken))
                 .Select(d => d.DeviceToken)
-                .ToList();
+                .ToListAsync();
         }
 
         public virtual async Task SendFirebaseNotificationToDeliveryMen(string message)
         {
             await Task.Delay(1000);
 
-            List<string> deliveryMenTokens = GetAllDeliveryMenDeviceTokens();
+            List<string> deliveryMenTokens = await GetAllDeliveryMenDeviceTokens();
 
             if (deliveryMenTokens.Count == 0) return;
 

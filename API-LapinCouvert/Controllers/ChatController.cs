@@ -43,7 +43,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -89,7 +89,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -100,7 +100,7 @@ namespace API_LapinCouvert.Controllers
 
                 if (!isAuthorized && command.DeliveryManId.HasValue)
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
                 }
 
@@ -116,7 +116,7 @@ namespace API_LapinCouvert.Controllers
                 }
                 else if (messageDTO.SenderType == "deliveryMan")
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     if (deliveryMan == null)
                     {
                         return NotFound("Delivery man not found");
@@ -151,7 +151,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -162,7 +162,7 @@ namespace API_LapinCouvert.Controllers
 
                 if (!isAuthorized && command.DeliveryManId.HasValue)
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
                 }
 
@@ -197,7 +197,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -209,7 +209,7 @@ namespace API_LapinCouvert.Controllers
 
                 if (!isAuthorized && command.DeliveryManId.HasValue)
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
 
                     if (isAuthorized)
@@ -249,7 +249,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -260,7 +260,7 @@ namespace API_LapinCouvert.Controllers
 
                 if (!isAuthorized && command.DeliveryManId.HasValue)
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
                 }
 
@@ -295,7 +295,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -307,7 +307,7 @@ namespace API_LapinCouvert.Controllers
 
                 if (!isAuthorized && command.DeliveryManId.HasValue)
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
 
                     if (isAuthorized)
@@ -347,7 +347,7 @@ namespace API_LapinCouvert.Controllers
                     return NotFound("Command not found");
                 }
 
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
                 if (client == null)
                 {
                     return NotFound("Client not found");
@@ -358,7 +358,7 @@ namespace API_LapinCouvert.Controllers
 
                 if (!isAuthorized && command.DeliveryManId.HasValue)
                 {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
+                    var deliveryMan = await _commandsService.GetDeliveryManById(userId);
                     isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
                 }
 

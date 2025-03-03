@@ -44,14 +44,15 @@ namespace API_LapinCouvert.Controllers
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client client =  _clientsService.GetClientFromUserId(userId);
+            
+            Client client = await _clientsService.GetClientFromUserId(userId);
 
             if (client == null)
             {
                 return NotFound("Client introuvable");
             }
 
-            Cart cart = _cartService.GetCartWithIncludeFromClientId(client.Id);
+            Cart cart = await _cartService.GetCartWithIncludeFromClientId(client.Id);
 
             if (cart == null)
             {
@@ -87,14 +88,14 @@ namespace API_LapinCouvert.Controllers
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client client = _clientsService.GetClientFromUserId(userId);
+            Client client = await _clientsService.GetClientFromUserId(userId);
 
             if (client == null)
             {
                 return NotFound("Le client est introuvable.");
             }
 
-            List<Command>? listeCommandeClient = _commandsService.GetClientCommand(client.Id);
+            List<Command>? listeCommandeClient = await _commandsService.GetClientCommand(client.Id);
 
             if(listeCommandeClient == null)
             {
@@ -127,7 +128,7 @@ namespace API_LapinCouvert.Controllers
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            DeliveryMan deliveryMan =  _commandsService.GetDeliveryManById(userId);
+            DeliveryMan deliveryMan = await _commandsService.GetDeliveryManById(userId);
 
             if (deliveryMan == null)
             {
@@ -145,13 +146,13 @@ namespace API_LapinCouvert.Controllers
         }
 
         [HttpGet("{commandId}")]
-        [Authorize(Roles = "deliveryMan")]
+        //[Authorize(Roles = "deliveryMan")]
         [Authorize]
         public async Task<ActionResult<Command>> AssignADelivery(int commandId)
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
+            DeliveryMan deliveryMan = await _commandsService.GetDeliveryManById(userId);
 
             if(deliveryMan == null)
             {
@@ -170,7 +171,7 @@ namespace API_LapinCouvert.Controllers
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
+            DeliveryMan deliveryMan = await _commandsService.GetDeliveryManById(userId);
 
             if (deliveryMan == null)
             {
@@ -190,7 +191,7 @@ namespace API_LapinCouvert.Controllers
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
+            DeliveryMan deliveryMan = await _commandsService.GetDeliveryManById(userId);
 
             if (deliveryMan == null)
             {
@@ -209,7 +210,7 @@ namespace API_LapinCouvert.Controllers
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
+            DeliveryMan deliveryMan = await _commandsService.GetDeliveryManById(userId);
 
             if (deliveryMan == null)
             {
@@ -234,7 +235,7 @@ namespace API_LapinCouvert.Controllers
             }
 
             // Verify the user has access to this command
-            Client client = _clientsService.GetClientFromUserId(userId);
+            Client client = await _clientsService.GetClientFromUserId(userId);
             if (client == null)
             {
                 return NotFound("Client non trouver");
@@ -245,7 +246,7 @@ namespace API_LapinCouvert.Controllers
 
             if (!isAuthorized && command.DeliveryManId.HasValue)
             {
-                DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
+                DeliveryMan deliveryMan = await _commandsService.GetDeliveryManById(userId);
                 isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
             }
 

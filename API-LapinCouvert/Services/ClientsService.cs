@@ -16,7 +16,7 @@ namespace Admin_API.Services
             _dbContext = context;
         }
 
-        public virtual Client CreateClient(IdentityUser user, RegisterDTO registerDTO)
+        public virtual async Task<Client> CreateClient(IdentityUser user, RegisterDTO registerDTO)
         {
                 Client client = new Client()
                 {
@@ -27,24 +27,24 @@ namespace Admin_API.Services
                     LastName = registerDTO.LastName,
                 };
 
-                _dbContext.Add(client);
-                _dbContext.SaveChanges();
+                await _dbContext.AddAsync(client);
+                await _dbContext.SaveChangesAsync();
 
                 Cart cart = new Cart()
                 {
                     ClientId = client.Id,
                 };
 
-                _dbContext.Add(cart);
-                _dbContext.SaveChanges();
+                await _dbContext.AddAsync(cart);
+                await _dbContext.SaveChangesAsync();
                 return client;
         }
 
-        public virtual DeliveryMan getClientDeliverMan(int clientId)
+        public virtual async Task<DeliveryMan> getClientDeliverMan(int clientId)
         {
             try
             {
-                return _dbContext.DeliveryMans.Single(c => c.ClientId == clientId);
+                return await _dbContext.DeliveryMans.SingleAsync(c => c.ClientId == clientId);
             }
             catch (Exception)
             {
@@ -54,34 +54,34 @@ namespace Admin_API.Services
 
         }
 
-        public virtual Client GetClientFromUserId(string userId)
+        public virtual async Task<Client> GetClientFromUserId(string userId)
         {
                 return _dbContext.Clients.Single(c => c.UserId == userId);
         
         }
 
-        public virtual Client GetClientFromUserName(string userName)
+        public virtual async Task<Client> GetClientFromUserName(string userName)
         {
                 return _dbContext.Clients.Single(c => c.User!.UserName == userName);
 
         }
 
-        public virtual void UpdateClient(Client client)
+        public virtual async void UpdateClient(Client client)
         {
-            var existingClient = _dbContext.Clients.Find(client.Id);
+            var existingClient = _dbContext.Clients.FindAsync(client.Id);
             if (existingClient == null)
             {
                 throw new Exception("Client non trouvé dans la base de données");
             }
 
             _dbContext.Entry(existingClient).CurrentValues.SetValues(client);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
         public virtual async Task<ProfileDTO> GetProfileInfo(string userId)
         {
 
-            Client client = GetClientFromUserId(userId);
+            Client client = await GetClientFromUserId(userId);
             if (client == null)
             {
                 throw new Exception("Client introuvable");
@@ -99,7 +99,7 @@ namespace Admin_API.Services
 
             if (client.IsDeliveryMan == true)
             {
-                DeliveryMan deliveryMan = getClientDeliverMan(client.Id);
+                var deliveryMan = await getClientDeliverMan(client.Id);
                 if (deliveryMan == null)
                 {
                     throw new Exception("Livreur introuvable");

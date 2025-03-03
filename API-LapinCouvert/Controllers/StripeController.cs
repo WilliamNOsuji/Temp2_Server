@@ -51,7 +51,7 @@ namespace API_LapinCouvert.Controllers
             }
             var client = await _context.Clients.FirstOrDefaultAsync(c => c.UserId == userId);
             // Create a customer (optional)
-            Customer customer = _userService.CreateCustomer(client, commandDTO);
+            Customer customer = await _userService.CreateCustomer(client, commandDTO);
 
             // Set the Stripe API key
             StripeConfiguration.ApiKey = _stripeSecretKey;
@@ -67,7 +67,7 @@ namespace API_LapinCouvert.Controllers
 
             // Create the payment intent
             var service = new PaymentIntentService();
-            PaymentIntent pi = service.Create(options);
+            PaymentIntent pi = await service.CreateAsync(options);
 
             // Return the payment intent details to the client
             PaymentIntentDTO dto = new PaymentIntentDTO
@@ -147,7 +147,7 @@ namespace API_LapinCouvert.Controllers
             {
                 // Get the current user ID
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var client = _clientsService.GetClientFromUserId(userId);
+                var client = await _clientsService.GetClientFromUserId(userId);
 
                 if (client == null)
                 {

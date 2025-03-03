@@ -64,7 +64,7 @@ namespace API_LapinCouvert.Services
                     CreatedAt = DateTime.UtcNow
                 };
 
-                _context.Chats.Add(chat);
+                await _context.Chats.AddAsync(chat);
                 await _context.SaveChangesAsync();
             }
             else if (!existingChat.IsActive)

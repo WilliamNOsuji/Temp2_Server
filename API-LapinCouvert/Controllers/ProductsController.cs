@@ -36,9 +36,9 @@ namespace API_LapinCouvert.Controllers
             return price;
         }
 
-        private bool IsAvailable(int id)
+        private async Task<bool> IsAvailable(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return await _context.Products.AnyAsync(e => e.Id == id);
         }
 
         private void IncreaseQuantity(int productId, int quantity)

@@ -20,7 +20,7 @@ namespace API_LapinCouvert.Services
         public Customer Customer { get; set; }
         public PaymentIntent PaymentIntent { get; set; }
 
-        public Customer CreateCustomer(Client client, CommandDTO commandDTO)
+        public async Task<Customer> CreateCustomer(Client client, CommandDTO commandDTO)
         {
 
             StripeConfiguration.ApiKey = "sk_test_51QprthRvxWgpsTY5If1jHdoBnoPV5ep8OSo5s6fhGi4TN7m9U50VfkIaWXyTkGZM38s3jXOBueOxMr5mTPzaHlHT00DWueiFZj";
@@ -52,7 +52,7 @@ namespace API_LapinCouvert.Services
             };
 
             var service = new CustomerService();
-            Customer customer = service.Create(options);
+            Customer customer = await service.CreateAsync(options);
 
             Customer = customer;
 
