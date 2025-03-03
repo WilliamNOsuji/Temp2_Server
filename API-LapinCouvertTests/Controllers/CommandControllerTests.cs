@@ -42,44 +42,42 @@ namespace API_LapinCouvert.Controllers.Tests
         {
             // Initialize the In-Memory Database
             _options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "CommandService")
-                .UseLazyLoadingProxies(true)
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // Use a unique name for each test run
+                .UseLazyLoadingProxies()
                 .Options;
 
             _dbContext = new ApplicationDbContext(_options);
 
-            // Mock dependencies
+            // Mock simple dependencies first
             _userManagerMock = new Mock<UserManager<IdentityUser>>(
                 Mock.Of<IUserStore<IdentityUser>>(), null, null, null, null, null, null, null, null);
 
-            _clientsServiceMock = new Mock<Admin_API.Services.ClientsService>(_dbContext);
-
-            _notificationsServiceMock = new Mock<NotificationsService>(_dbContext);
-
             _randomServiceMock = new Mock<RandomService>();
 
-            // Setup FirebaseService mock
+            // This prevents Firebase initialization issues in tests
             _firebaseServiceMock = new Mock<FirebaseService>() { CallBase = false };
 
+            // Mock services in the correct dependency order
+            _notificationsServiceMock = new Mock<NotificationsService>(_dbContext);
+
+            // ChatService depends on FirebaseService and NotificationsService
             _chatServiceMock = new Mock<ChatService>(
                 _dbContext,
                 _firebaseServiceMock.Object,
                 _notificationsServiceMock.Object);
 
-            _hubContextMock = new Mock<IHubContext<DeliveryHub>>();
-            _cartServiceMock = new Mock<CartService>(_dbContext);
-
+            // CommandsService depends on NotificationsService, RandomService, and ChatService
             _commandsServiceMock = new Mock<CommandsService>(
                 _dbContext,
                 _notificationsServiceMock.Object,
                 _randomServiceMock.Object,
-                _chatServiceMock.Object
-                );
+                _chatServiceMock.Object);
 
-            _hubContextMock = new Mock<IHubContext<DeliveryHub>>();
+            _clientsServiceMock = new Mock<Admin_API.Services.ClientsService>(_dbContext);
             _cartServiceMock = new Mock<CartService>(_dbContext);
+            _hubContextMock = new Mock<IHubContext<DeliveryHub>>();
 
-            // Initialize the controller
+            // Initialize the controller with mock dependencies
             _controller = new CommandsController(
                 _userManagerMock.Object,
                 _commandsServiceMock.Object,
@@ -88,6 +86,7 @@ namespace API_LapinCouvert.Controllers.Tests
                 _cartServiceMock.Object,
                 _notificationsServiceMock.Object
             );
+
             // Mock the User property of the controller
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
@@ -119,18 +118,18 @@ namespace API_LapinCouvert.Controllers.Tests
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
-            Assert.AreEqual("Command not found", (result as NotFoundObjectResult).Value);
+            Assert.AreEqual("Command non trouver", (result as NotFoundObjectResult).Value);
         }
 
         [TestMethod()]
         public async Task GetCommand_ReturnsOk_WhenCommandIsFound()
         {
             // Arrange
-            var command = new Command { Id = 1 };
             var client = new Client { Id = 1, UserId = "test-user-id" };
-
-            _commandsServiceMock.Setup(s => s.GetCommandById(It.IsAny<int>())).ReturnsAsync(command);
+            var command = new Command { Id = 1, Client = client, ClientId = client.Id};
             _clientsServiceMock.Setup(s => s.GetClientFromUserId(It.IsAny<string>())).Returns(client);
+            _commandsServiceMock.Setup(s => s.GetCommandById(It.IsAny<int>())).ReturnsAsync(command);
+            
 
             // Act
             var result = await _controller.GetCommand(1);

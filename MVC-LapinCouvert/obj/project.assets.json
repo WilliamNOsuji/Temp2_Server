@@ -9858,20 +9858,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MongKe\\.nuget\\packages\\": {},
+    "C:\\Users\\2079555\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MongKe\\Desktop\\serveur-equipe-4\\MVC-LapinCouvert\\MVC-LapinCouvert.csproj",
+      "projectUniqueName": "C:\\Users\\2079555\\Documents\\serveur-equipe-4\\MVC-LapinCouvert\\MVC-LapinCouvert.csproj",
       "projectName": "MVC-LapinCouvert",
-      "projectPath": "C:\\Users\\MongKe\\Desktop\\serveur-equipe-4\\MVC-LapinCouvert\\MVC-LapinCouvert.csproj",
-      "packagesPath": "C:\\Users\\MongKe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\MongKe\\Desktop\\serveur-equipe-4\\MVC-LapinCouvert\\obj\\",
+      "projectPath": "C:\\Users\\2079555\\Documents\\serveur-equipe-4\\MVC-LapinCouvert\\MVC-LapinCouvert.csproj",
+      "packagesPath": "C:\\Users\\2079555\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2079555\\Documents\\serveur-equipe-4\\MVC-LapinCouvert\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\MongKe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2079555\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -9880,14 +9883,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\MongKe\\Desktop\\serveur-equipe-4\\Models\\Models.csproj": {
-              "projectPath": "C:\\Users\\MongKe\\Desktop\\serveur-equipe-4\\Models\\Models.csproj"
+            "C:\\Users\\2079555\\Documents\\serveur-equipe-4\\Models\\Models.csproj": {
+              "projectPath": "C:\\Users\\2079555\\Documents\\serveur-equipe-4\\Models\\Models.csproj"
             }
           }
         }
@@ -9901,8 +9905,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -10010,7 +10013,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -10019,7 +10022,7 @@
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "MVC-LapinCouvert depends on Microsoft.Extensions.Configuration.Json (>= 8.0.302) but Microsoft.Extensions.Configuration.Json 8.0.302 was not found. Microsoft.Extensions.Configuration.Json 9.0.0 was resolved instead.",
+      "message": "MVC-LapinCouvert depends on Microsoft.Extensions.Configuration.Json (>= 8.0.302) but Microsoft.Extensions.Configuration.Json 8.0.302 was not found. An approximate best match of Microsoft.Extensions.Configuration.Json 9.0.0 was resolved.",
       "libraryId": "Microsoft.Extensions.Configuration.Json",
       "targetGraphs": [
         "net8.0"

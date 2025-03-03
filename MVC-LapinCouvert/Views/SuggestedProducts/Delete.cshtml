@@ -18,16 +18,28 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-        <dt class = "col-sm-2">
 	        @Html.DisplayNameFor(model => model.FinishDate)
         </dt>
         <dd class = "col-sm-10">
 	        @Html.DisplayFor(model => model.FinishDate)
+        </dd>
+        <dt class="col-sm-2">
+            Votes For
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Votes?.Count(v => v.IsFor) ?? 0)
+        </dd>
+        <dt class="col-sm-2">
+            Votes Against
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Votes?.Count(v => !v.IsFor) ?? 0)
+        </dd>
+        <dt class = "col-sm-2">
+	        @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd class="col-sm-10">
+	        <img style="height:100px; width:auto" src="@Model.Photo" alt="@Model.Name" />
         </dd>
     </dl>
     

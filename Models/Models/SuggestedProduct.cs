@@ -26,11 +26,15 @@ namespace LapinCouvert.Models
         [DisplayName("Date de fin")]
         public DateTime FinishDate { get; set; }
 
-        [JsonIgnore]
-        [ValidateNever]
-        public virtual List<Client>? ForClients { get; set; } = new List<Client>();
-        [JsonIgnore]
-        [ValidateNever]
-        public virtual List<Client>? AgainstClients { get; set; } = new List<Client>();
+        //[JsonIgnore]
+        //[ValidateNever]
+        //[DisplayName("Votes pour")]
+        //public virtual List<Client> ForClients { get; set; }
+        //[JsonIgnore]
+        //[ValidateNever]
+        //[DisplayName("Votes contre")]
+        //public virtual List<Client> AgainstClients { get; set; } 
+
+        public virtual List<Vote> Votes { get; set; } = new List<Vote>();
     }
 }

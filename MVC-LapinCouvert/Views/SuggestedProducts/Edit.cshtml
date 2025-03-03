@@ -1,7 +1,7 @@
 ﻿@model LapinCouvert.Models.SuggestedProduct
 
 @{
-    ViewData["Title"] = "Modification";
+	ViewData["Title"] = "Modification";
 }
 
 <h1>Modifier</h1>
@@ -9,32 +9,53 @@
 <h4>Produits suggérés</h4>
 <hr />
 <div class="row">
-    <div class="col-md-9">
-	    <form asp-action="Edit">
-		    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-		    <input type="hidden" asp-for="Id" />
-		    <div class="form-group">
-			    <label asp-for="Name" class="control-label"></label>
-			    <input asp-for="Name" class="form-control mid-field" />
-			    <span asp-validation-for="Name" class="text-danger"></span>
-		    </div>
-		    <div class="form-group">
-			    <label asp-for="Photo" class="control-label"></label>
-			    <input asp-for="Photo" class="form-control long-field" />
-			    <span asp-validation-for="Photo" class="text-danger"></span>
-		    </div>
-		    <br />
-		    <div class="form-group">
-			    <input type="submit" value="Modifier" class="btn btn-primary" />
-		    </div>
-	    </form>
+	<div class="col-md-9">
+		<form asp-action="Edit">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Id" />
+			<div class="form-group">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control mid-field" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+			<br/>
+			<div class="form-group">
+				<label asp-for="Photo" class="control-label"></label>
+				<input asp-for="Photo" class="form-control long-field" />
+				<span asp-validation-for="Photo" class="text-danger"></span>
+			</div>
+			<br/>
+			<div class="form-group">
+				<label asp-for="FinishDate" class="control-label"></label>
+				<input id="FinishDate" asp-for="FinishDate" type="text" class="form-control small-field" value="@Model.FinishDate.ToString("dd MMMM yyyy HH:mm", new System.Globalization.CultureInfo("fr-CA"))" />
+				<span asp-validation-for="FinishDate" class="text-danger"></span>
+			</div>
+			<br />
+			<div class="form-group">
+				<input type="submit" value="Modifier" class="btn btn-primary" />
+			</div>
+		</form>
 		<br/>
-	    <div>
-		    <a asp-action="Index">Retour à la liste</a>
-	    </div>
-    </div>
+		<div>
+			<a asp-action="Index">Retour à la liste</a>
+		</div>
+	</div>
 </div>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+	<script>
+        $(function() {
+			$.datetimepicker.setLocale('fr');
+            $('#FinishDate').datetimepicker({
+				value: '@Model.FinishDate.ToString("yyyy-MM-dd HH:mm")',
+                format: 'Y-m-d H:i',
+                step: 60,
+                lang: 'fr'
+            });
+        });
+    </script>
 }

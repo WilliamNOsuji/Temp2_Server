@@ -48,7 +48,7 @@ namespace API_LapinCouvert.Controllers
 
             try
             {
-                await _suggestedProductsService.VoteFor(client, suggestedProductId);
+                await _suggestedProductsService.VoteFor(client.Id, suggestedProductId);
             }
             catch (Exception e)
             {
@@ -76,7 +76,7 @@ namespace API_LapinCouvert.Controllers
 
             try
             {
-                await _suggestedProductsService.VoteAgainst(client, suggestedProductId);
+                await _suggestedProductsService.VoteAgainst(client.Id, suggestedProductId);
             }
             catch (Exception e)
             {

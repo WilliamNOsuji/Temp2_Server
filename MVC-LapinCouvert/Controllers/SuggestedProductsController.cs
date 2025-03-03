@@ -92,7 +92,7 @@ namespace MVC_LapinCouvert.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Brand,CategoryId,Photo,VotesFor,VotesAgainst")] SuggestedProduct suggestedProduct)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Brand,CategoryId,Photo,VotesFor,VotesAgainst,FinishDate")] SuggestedProduct suggestedProduct)
         {
             if (id != suggestedProduct.Id)
             {
@@ -103,7 +103,12 @@ namespace MVC_LapinCouvert.Controllers
             {
                 try
                 {
-                    _context.Update(suggestedProduct);
+	                if (suggestedProduct.FinishDate.Kind == DateTimeKind.Unspecified)
+	                {
+		                suggestedProduct.FinishDate = DateTime.SpecifyKind(suggestedProduct.FinishDate, DateTimeKind.Utc)
+			                .ToUniversalTime();
+	                }
+					_context.Update(suggestedProduct);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

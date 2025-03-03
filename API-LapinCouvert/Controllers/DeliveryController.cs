@@ -77,7 +77,7 @@ namespace API_LapinCouvert.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "deliveryMan")]
+        [Authorize(Roles = "deliveryMan")]
         [Authorize]
         public async Task<IActionResult> Resign()
         {

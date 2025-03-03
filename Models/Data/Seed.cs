@@ -83,23 +83,44 @@ namespace Models
                 new SuggestedProduct
                 {
                     Id = 1,
-                    Name = "Pomme",
-                    FinishDate = DateTime.MaxValue,
-                    Photo = "https://www.academiedugout.fr/images/17159/1200-auto/fotolia_55372155_subscription_xxl-copy.jpg?poix=50&poiy=50",
+                    Name = "Gaufres",
+                    FinishDate = DateTime.UtcNow.AddDays(7),
+                    Photo = "https://lecoureurnordique.ca/cdn/shop/files/4-Waffle-Berries-box-opened.jpg?v=1722540909&width=1214",
                 },
                 new SuggestedProduct
                 {
                     Id = 2,
-                    Name = "Banane",
-                    FinishDate = DateTime.MaxValue,
-                    Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFIUZpHsClvQAzZMkBQHxic957tuHLeWaR3g&s",
+                    Name = "Cornets",
+                    FinishDate = DateTime.UtcNow.AddDays(7),
+                    Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoBx3hiPWYqDgwmUXn4FfiBrOB6PmOXewpqQ&s",
                 },
                 new SuggestedProduct
                 {
                     Id = 3,
-                    Name = "Orange",
-                    FinishDate = DateTime.MaxValue,
-                    Photo = "https://lefruitier.ca/cdn/shop/products/orange_400x400.jpg?v=1606876694",
+                    Name = "Fudges glacés",
+                    FinishDate = DateTime.UtcNow.AddDays(7),
+					Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRlu3mzqkeID_rRd4xy1RnHOBdQf6iiiy3mg&s",
+                },
+                new SuggestedProduct
+                {
+                    Id = 4,
+                    Name = "Hummus",
+                    FinishDate = DateTime.UtcNow.AddDays(7),
+                    Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMtAo5EOV4PwwsX68gcZcbpFmUvlJjwmdrlQ&s",
+                },
+                new SuggestedProduct
+                {
+                    Id = 5,
+                    Name = "Pâté au poulet",
+                    FinishDate = DateTime.UtcNow.AddDays(7),
+                    Photo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRprmtq6sxdBWIk7WJLe4phNvN687HYJtNRg&s",
+                },
+                new SuggestedProduct
+                {
+                    Id = 6,
+                    Name = "Sushi",
+                    FinishDate = DateTime.UtcNow.AddDays(7),
+                    Photo = "https://fastfoodpak.com/cdn/shop/products/H9d0cd66c764247c99bfa03dee91d5474w-removebg-preview.png?v=1642061891",
                 },
             };
         }

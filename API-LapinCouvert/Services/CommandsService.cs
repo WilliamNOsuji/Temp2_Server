@@ -105,6 +105,7 @@ namespace API_LapinCouvert.Services
         public virtual async Task ClearCartAsync(Cart cart)
         {
             cart.CartProducts.Clear();
+            _context.Update(cart);
             await _context.SaveChangesAsync();
         }
 

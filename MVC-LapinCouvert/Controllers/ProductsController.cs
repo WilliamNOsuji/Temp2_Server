@@ -62,17 +62,29 @@ namespace MVC_LapinCouvert.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
-        public async Task<IActionResult> Create()
-        {
-            ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "Name");
-            return View();
-        }
+		// GET: Products/Create
+		public async Task<IActionResult> Create(int? suggestedProductId)
+		{
+			var product = new Product();
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+			if (suggestedProductId.HasValue)
+			{
+				var suggestedProduct = await _context.SuggestedProducts.FindAsync(suggestedProductId.Value);
+				if (suggestedProduct != null)
+				{
+					product.Name = suggestedProduct.Name;
+					product.Photo = suggestedProduct.Photo;
+				}
+			}
+
+			ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "Name");
+			return View(product);
+		}
+
+		// POST: Products/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromServices] IImageFileManager fileManager, Product product)
         {

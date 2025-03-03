@@ -20,7 +20,6 @@ using SessionService = Stripe.Checkout.SessionService;
 namespace API_LapinCouvert.Controllers
 {
     [Route("api/[controller]/[action]")]
-    //[Route("api/[controller]")]
     [ApiController]
     public class StripeController : ControllerBase
     {
@@ -116,16 +115,13 @@ namespace API_LapinCouvert.Controllers
                     SuccessUrl = request.SuccessUrl + "?session_id={CHECKOUT_SESSION_ID}",
                     CancelUrl = request.CancelUrl + "?canceled=true",
                     //CustomerEmail = "customer@example.com", // In a real app, use the user's email
-                    PaymentIntentData = new SessionPaymentIntentDataOptions
-                    {
-                        // Store metadata for later use
-                        Metadata = new Dictionary<string, string>
+                    Metadata = new Dictionary<string, string>
                     {
                         { "ClientId", User.FindFirst(ClaimTypes.NameIdentifier).Value },
-                        { "address", request.Address },
-                        { "phoneNumber", request.PhoneNumber },
+                        { "Address", request.Address },
+                        { "PhoneNumber", request.PhoneNumber },
                     }
-                    }
+                    
                 };
 
                 var service = new Stripe.Checkout.SessionService();
@@ -168,10 +164,10 @@ namespace API_LapinCouvert.Controllers
                     CommandDTO commandDTO = new CommandDTO
                     {
                         Address = session.Metadata.ContainsKey("Address") ?
-                            session.Metadata["Address"] : "Address not provided",
+                            session.Metadata["Address"] : "Aucune addresse",
 
-                        PhoneNumber = session.Metadata.ContainsKey("PhoneNumber") ?
-                            session.Metadata["PhoneNumber"] : "Phone not provided",
+                                            PhoneNumber = session.Metadata.ContainsKey("PhoneNumber") ?
+                            session.Metadata["PhoneNumber"] : "Aucun numero de telephone",
 
                         TotalPrice = (double)session.AmountTotal / 100, // Convert from cents
 

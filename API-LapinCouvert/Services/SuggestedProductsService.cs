@@ -25,77 +25,126 @@ namespace API_LapinCouvert.Services
         }
         public SuggestedProductsService()
         {
-           
+
         }
 
         public virtual async Task<List<SuggestedProductDTO>> GetSuggestedProducts(string userId)
         {
-            // Ensure that the UserVotes collection is loaded.
-            List<SuggestedProduct> products = await _context.SuggestedProducts
-                  //.Where(x => x.FinishDate > DateTime.UtcNow)
-                  .ToListAsync();
+            var client = await _context.Clients
+                .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            // DTO list creation
-            List<SuggestedProductDTO> productDtos = products.Select(sp => new SuggestedProductDTO()
+            List<SuggestedProduct> products = await _context.SuggestedProducts
+                .Include(sp => sp.Votes) 
+                .Where(sp => sp.FinishDate > DateTime.UtcNow)
+                .ToListAsync();
+
+            List<SuggestedProductDTO> productDtos = new();
+
+            foreach (var product in products)
             {
-                Id = sp.Id,
-                Name = sp.Name,
-                Photo = sp.Photo ?? "https://fondationdesgouverneurs.org/wp-content/uploads/2023/12/placeholder-287.png",
-                FinishDate = sp.FinishDate,
-            }).ToList();
+                string userVote = "";
+
+                if (client != null)
+                {
+                    Vote? vote = product.Votes.FirstOrDefault(v => v.ClientId == client.Id);
+
+                    if (vote != null)
+                    {
+                        userVote = vote.IsFor ? "For" : "Against";
+                    }
+                }
+
+                productDtos.Add(new SuggestedProductDTO
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Photo = product.Photo
+                            ?? "https://fondationdesgouverneurs.org/wp-content/uploads/2023/12/placeholder-287.png",
+                    FinishDate = product.FinishDate,
+                    UserVote = userVote
+                });
+            }
 
             return productDtos;
         }
 
-        public virtual async Task<bool> VoteFor(Client client, int suggestedProductId)
+        public virtual async Task<bool> VoteFor(int clientId, int suggestedProductId)
         {
-            SuggestedProduct suggestedProduct = await _context.SuggestedProducts.FindAsync(suggestedProductId);
-            if (suggestedProduct == null)
+            var product = await _context.SuggestedProducts
+                .Include(p => p.Votes)
+                .FirstOrDefaultAsync(p => p.Id == suggestedProductId);
+
+            if (product == null)
             {
                 throw new Exception("Produit suggéré introuvable.");
             }
 
-            suggestedProduct.ForClients ??= new List<Client>();
-            suggestedProduct.AgainstClients ??= new List<Client>();
+            var existingVote = product.Votes.FirstOrDefault(v => v.ClientId == clientId);
 
-            if (suggestedProduct.ForClients.Contains(client))
+            if (existingVote != null && existingVote.IsFor == true)
             {
-                suggestedProduct.ForClients.Remove(client);
+                product.Votes.Remove(existingVote);
+                _context.Votes.Remove(existingVote);
             }
             else
             {
-                suggestedProduct.ForClients.Add(client);
-                suggestedProduct.AgainstClients.Remove(client);
+                if (existingVote != null)
+                {
+                    product.Votes.Remove(existingVote);
+                    _context.Votes.Remove(existingVote);
+                }
+
+                var vote = new Vote
+                {
+                    ClientId = clientId,
+                    SuggestedProductId = suggestedProductId,
+                    IsFor = true
+                };
+                product.Votes.Add(vote);
+                _context.Votes.Add(vote);
             }
 
             await _context.SaveChangesAsync();
-
             return true;
         }
 
-        public virtual async Task<bool> VoteAgainst(Client client, int suggestedProductId)
+        public virtual async Task<bool> VoteAgainst(int clientId, int suggestedProductId)
         {
-            SuggestedProduct suggestedProduct = await _context.SuggestedProducts.FindAsync(suggestedProductId);
-            if (suggestedProduct == null)
+            var product = await _context.SuggestedProducts
+                .Include(p => p.Votes)
+                .FirstOrDefaultAsync(p => p.Id == suggestedProductId);
+
+            if (product == null)
             {
                 throw new Exception("Produit suggéré introuvable.");
             }
 
-            suggestedProduct.ForClients ??= new List<Client>();
-            suggestedProduct.AgainstClients ??= new List<Client>();
+            var existingVote = product.Votes.FirstOrDefault(v => v.ClientId == clientId);
 
-            if (suggestedProduct.AgainstClients.Contains(client))
+            if (existingVote != null && existingVote.IsFor == false)
             {
-                suggestedProduct.AgainstClients.Remove(client);
+                product.Votes.Remove(existingVote);
+                _context.Votes.Remove(existingVote);
             }
             else
             {
-                suggestedProduct.AgainstClients.Add(client);
-                suggestedProduct.ForClients.Remove(client);
+                if (existingVote != null)
+                {
+                    product.Votes.Remove(existingVote);
+                    _context.Votes.Remove(existingVote);
+                }
+
+                var vote = new Vote
+                {
+                    ClientId = clientId,
+                    SuggestedProductId = suggestedProductId,
+                    IsFor = false
+                };
+                product.Votes.Add(vote);
+                _context.Votes.Add(vote);
             }
 
             await _context.SaveChangesAsync();
-
             return true;
         }
     }

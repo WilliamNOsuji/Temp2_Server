@@ -12,41 +12,55 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
-            <th>
-	            @Html.DisplayNameFor(model => model.FinishDate)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Photo)</th>
+@*             <th>@Html.DisplayNameFor(model => model.ForClients)</th>
+            <th>@Html.DisplayNameFor(model => model.AgainstClients)</th> *@
+            <th>@Html.DisplayNameFor(model => model.FinishDate)</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+    @foreach (var item in Model) {
+	    <tr>
+		    <td>
+			    @Html.DisplayFor(modelItem => item.Name)
+		    </td>
+		    <td>
+			    @if(item.Photo != null)
+			    {
+				    <img style="height:50px; width:auto" src="@item.Photo" alt="@item.Name" />
+			    }
+			    else
+			    {
+				    <img style="height:50px; width:auto" src="~/images/default_image.jpg" alt="@item.Name" />
+			    }
+		    </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            @if(item.Photo != null)
-            {
-	            <td><img style="height:50px; width:auto" src="@item.Photo" alt="@item.Name" /></td>
-            }
-            else
-            {
-	            <td><img style="height:50px; width:auto" src="~/images/default_image.jpg" alt="@item.Name" /></td>
-            }
-            <td>
-	            @item.FinishDate.ToString("dd MMMM yyyy HH:mm:ss", new System.Globalization.CultureInfo("fr-CA"))
+                @(item.Votes?.Count(v => v.IsFor) ?? 0)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Modifier</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Détails</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Supprimer</a>
+                @(item.Votes?.Count(v => !v.IsFor) ?? 0)
             </td>
-        </tr>
-}
+		    <td>
+				@if (item.FinishDate < DateTime.UtcNow)
+				{
+					<span style="color: red;">
+						@item.FinishDate.ToString("dd MMMM yyyy HH:mm", new System.Globalization.CultureInfo("fr-CA"))
+					</span>
+				}
+				else
+				{
+					@item.FinishDate.ToString("dd MMMM yyyy HH:mm", new System.Globalization.CultureInfo("fr-CA"))
+				}
+		    </td>
+		    <td>
+			    <a asp-action="Edit" asp-route-id="@item.Id">Modifier</a> |
+			    <a asp-action="Details" asp-route-id="@item.Id">Détails</a> |
+			    <a asp-action="Delete" asp-route-id="@item.Id">Supprimer</a> |
+			    <a asp-controller="Products" asp-action="Create" asp-route-suggestedProductId="@item.Id">Ajouter produit</a>
+		    </td>
+	    </tr>
+    }
     </tbody>
 </table>

@@ -46,10 +46,10 @@ namespace LapinCouvert.Models
 
         //[JsonIgnore]
         //[ValidateNever]
-        //public virtual List<SuggestedProduct>? ForClients { get; set; } = new List<SuggestedProduct>();
+        //public virtual ICollection<SuggestedProduct> ForClients { get; set; }
         //[JsonIgnore]
         //[ValidateNever]
-        //public virtual List<SuggestedProduct>? AgainstClients { get; set; } = new List<SuggestedProduct>();
+        //public virtual ICollection<SuggestedProduct> AgainstClients { get; set; }
 
         public string GetFullName()
         {

@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MVC-LapinCouvert")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da51c969b4958584616414d79a8b915531242c61")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd096c423a1a1ed8ef98a245abdd2555ef50bb79")]
 [assembly: System.Reflection.AssemblyProductAttribute("MVC-LapinCouvert")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MVC-LapinCouvert")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

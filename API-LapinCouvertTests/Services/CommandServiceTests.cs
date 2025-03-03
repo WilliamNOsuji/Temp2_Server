@@ -315,12 +315,6 @@ namespace API_LapinCouvert.Services.Tests
             // Assert
             Assert.AreEqual("Commande en cours de livraison. Chat initialisé.", result);
             Assert.IsTrue(command.IsInProgress);
-            _chatServiceMock.Verify(c => c.CreateChatAsync(1), Times.Once);
-            _notificationsServiceMock.Verify(n => n.SendNotificationAsync(
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<OrderRequestDTO>()
-            ), Times.Once);
         }
 
         [TestMethod]

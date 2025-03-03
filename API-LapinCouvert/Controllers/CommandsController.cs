@@ -145,7 +145,7 @@ namespace API_LapinCouvert.Controllers
         }
 
         [HttpGet("{commandId}")]
-        //[Authorize(Roles = "deliveryMan")]
+        [Authorize(Roles = "deliveryMan")]
         [Authorize]
         public async Task<ActionResult<Command>> AssignADelivery(int commandId)
         {
@@ -170,7 +170,7 @@ namespace API_LapinCouvert.Controllers
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var deliveryMan = _commandsService.GetDeliveryManById(userId);
+            DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
 
             if (deliveryMan == null)
             {
@@ -225,43 +225,36 @@ namespace API_LapinCouvert.Controllers
         [Authorize]
         public async Task<ActionResult> GetCommand(int commandId)
         {
-            try
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Command command = await _commandsService.GetCommandById(commandId);
+            if (command == null)
             {
-                string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                var command = await _commandsService.GetCommandById(commandId);
-                if (command == null)
-                {
-                    return NotFound("Command not found");
-                }
-
-                // Verify the user has access to this command
-                var client = _clientsService.GetClientFromUserId(userId);
-                if (client == null)
-                {
-                    return NotFound("Client not found");
-                }
-
-                // Check if user is either the client or the delivery man for this command
-                bool isAuthorized = command.ClientId == client.Id;
-
-                if (!isAuthorized && command.DeliveryManId.HasValue)
-                {
-                    var deliveryMan = _commandsService.GetDeliveryManById(userId);
-                    isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
-                }
-
-                if (!isAuthorized)
-                {
-                    return Forbid("You are not authorized to access this command");
-                }
-
-                return Ok(command);
+                return NotFound("Command non trouver");
             }
-            catch (System.Exception ex)
+
+            // Verify the user has access to this command
+            Client client = _clientsService.GetClientFromUserId(userId);
+            if (client == null)
             {
-                return BadRequest($"Error retrieving command: {ex.Message}");
+                return NotFound("Client non trouver");
             }
+
+            // Check if user is either the client or the delivery man for this command
+            bool isAuthorized = command.ClientId == client.Id;
+
+            if (!isAuthorized && command.DeliveryManId.HasValue)
+            {
+                DeliveryMan deliveryMan = _commandsService.GetDeliveryManById(userId);
+                isAuthorized = deliveryMan != null && command.DeliveryManId == deliveryMan.Id;
+            }
+
+            if (!isAuthorized)
+            {
+                return Forbid("Vous etes pas authoriser a utiliser cette commande");
+            }
+
+            return Ok(command);
         }
     }
 }

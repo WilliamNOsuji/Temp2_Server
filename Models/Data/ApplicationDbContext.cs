@@ -1,4 +1,4 @@
-﻿using Humanizer;
+using Humanizer;
 using LapinCouvert.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -85,6 +85,8 @@ namespace MVC_LapinCouvert.Data
         public DbSet<CartProducts> CartProducts { get; set; } = default!;
         public DbSet<CommandProduct> CommandProducts { get; set; } = default!;
         public DbSet<Chat> Chats { get; set; } = default!;
+        public DbSet<Vote> Votes { get; set; } = default!;
 
-    }
+
+	}
 }

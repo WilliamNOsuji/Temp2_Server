@@ -100,6 +100,10 @@ html, body {
     z-index: 10; /* Ensures pagination stays above other content */
 }
 
+.small-field {
+    width: 250px;
+}
+
 .mid-field {
     width: 450px;
 }
